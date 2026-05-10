@@ -1,54 +1,872 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AnF Labs</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="AnF Labs — Modern websites and digital solutions for small businesses. Fast, affordable, and built to grow your revenue.">
+<meta name="keywords" content="web design, small business websites, ecommerce, SEO, web development, landing pages">
+<meta property="og:title" content="AnF Labs — Websites for Small Businesses">
+<meta property="og:description" content="We build modern, high-converting websites for small businesses. Fast delivery, affordable pricing, ongoing support.">
+<title>AnF Labs — Websites for Small Businesses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: #0A0F1E; color: #fff; }
 
-    body {
-      background-color: #0a0a0a;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: sans-serif;
-    }
+  :root {
+    --navy:   #0A0F1E;
+    --dark:   #111827;
+    --muted:  #64748B;
+    --accent: #6EE7B7;
+    --accent2:#34D399;
+    --white:  #FFFFFF;
+    --light:  #F8FAFC;
+    --gold:   #FCD34D;
+    --syne:   'Syne', system-ui, sans-serif;
+  }
 
-    .container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      padding: 20px;
-    }
+  /* ── Fade-in on scroll ── */
+  .fi { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .fi.vis { opacity: 1; transform: translateY(0); }
+  .fi.d1 { transition-delay: 0.08s; }
+  .fi.d2 { transition-delay: 0.16s; }
+  .fi.d3 { transition-delay: 0.24s; }
+  .fi.d4 { transition-delay: 0.32s; }
+  .fi.d5 { transition-delay: 0.40s; }
 
-    .logo-img {
-      width: 100%;
-      max-width: 500px;
-      height: auto;
-      display: block;
-    }
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    transition: background 0.3s, border-color 0.3s, backdrop-filter 0.3s;
+    border-bottom: 1px solid transparent;
+  }
+  nav.scrolled {
+    background: rgba(10,15,30,0.96);
+    backdrop-filter: blur(14px);
+    border-color: rgba(110,231,183,0.12);
+  }
+  .nav-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 66px; padding: 0 24px;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo-icon {
+    width: 36px; height: 36px; border-radius: 9px;
+    background: linear-gradient(135deg, var(--accent), #059669);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--syne); font-weight: 800; font-size: 15px; color: var(--navy);
+    letter-spacing: -0.5px;
+  }
+  .logo-text { font-family: var(--syne); font-weight: 800; font-size: 20px; color: var(--white); letter-spacing: -0.5px; }
+  .nav-links { display: flex; align-items: center; gap: 30px; }
+  .nav-link {
+    color: #94A3B8; text-decoration: none; font-size: 14px; font-weight: 500;
+    transition: color 0.2s; cursor: pointer; background: none; border: none;
+  }
+  .nav-link:hover { color: var(--accent); }
+  .nav-cta {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border: none; border-radius: 8px; padding: 10px 22px;
+    color: var(--navy); font-weight: 700; font-size: 14px; cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(110,231,183,0.35); }
+  .hamburger {
+    display: none; background: none; border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px; padding: 8px 11px; cursor: pointer; color: var(--white); font-size: 18px;
+  }
+  .mobile-menu {
+    display: none; flex-direction: column;
+    background: var(--navy); border-top: 1px solid rgba(110,231,183,0.1);
+    padding: 16px 24px 22px;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-link {
+    background: none; border: none; color: #94A3B8;
+    font-size: 16px; padding: 12px 0; cursor: pointer; text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .mobile-cta {
+    margin-top: 12px; background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border: none; border-radius: 10px; padding: 13px;
+    color: var(--navy); font-weight: 700; font-size: 15px; cursor: pointer;
+  }
 
-    @media (max-width: 600px) {
-      .logo-img {
-        max-width: 90vw;
-      }
-    }
-  </style>
+  /* ── SHARED ── */
+  section { padding: 96px 24px; }
+  .inner { max-width: 1200px; margin: 0 auto; }
+  .section-head { text-align: center; margin-bottom: 58px; }
+  .tag {
+    display: inline-block; border-radius: 100px;
+    padding: 5px 16px; font-size: 12px; font-weight: 600; margin-bottom: 14px;
+  }
+  .tag-green { background: #ECFDF5; border: 1px solid #A7F3D0; color: #059669; }
+  .tag-teal  { background: rgba(110,231,183,0.1); border: 1px solid rgba(110,231,183,0.25); color: var(--accent); }
+  .h2 {
+    font-family: var(--syne); font-size: clamp(1.7rem, 3.5vw, 2.7rem);
+    font-weight: 800; letter-spacing: -1px; margin-bottom: 14px; line-height: 1.15;
+  }
+  .h2.dark { color: var(--dark); }
+  .h2.white { color: var(--white); }
+  .sub { font-size: 16px; line-height: 1.7; max-width: 480px; margin: 0 auto; }
+  .sub.muted { color: var(--muted); }
+  .sub.light { color: #64748B; }
+  .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh; background: var(--navy);
+    display: flex; align-items: center;
+    position: relative; overflow: hidden; padding-top: 66px;
+  }
+  .grid-bg {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(110,231,183,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(110,231,183,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .orb { position: absolute; border-radius: 50%; pointer-events: none; }
+  .hero-inner {
+    max-width: 1200px; margin: 0 auto; width: 100%;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
+    align-items: center; position: relative; z-index: 1;
+    padding: 60px 24px;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(110,231,183,0.1); border: 1px solid rgba(110,231,183,0.25);
+    border-radius: 100px; padding: 6px 16px; margin-bottom: 22px;
+  }
+  .badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+  .badge-txt { color: var(--accent); font-size: 12px; font-weight: 600; letter-spacing: 0.5px; }
+  .hero-h1 {
+    font-family: var(--syne); font-size: clamp(2rem, 4.5vw, 3.5rem);
+    font-weight: 800; line-height: 1.1; color: var(--white);
+    margin-bottom: 20px; letter-spacing: -1.5px;
+  }
+  .hero-h1 span { color: var(--accent); }
+  .hero-p { color: #94A3B8; font-size: 17px; line-height: 1.7; margin-bottom: 32px; max-width: 460px; }
+  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border: none; border-radius: 10px; padding: 14px 28px;
+    color: var(--navy); font-weight: 700; font-size: 15px; cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(110,231,183,0.4); }
+  .btn-outline {
+    background: transparent; border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 10px; padding: 14px 28px;
+    color: var(--white); font-weight: 600; font-size: 15px; cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+  .hero-stats { display: flex; gap: 28px; margin-top: 40px; flex-wrap: wrap; }
+  .stat-n { font-family: var(--syne); font-size: 24px; font-weight: 800; color: var(--white); }
+  .stat-l { color: #64748B; font-size: 12px; margin-top: 2px; }
+
+  /* browser mockup */
+  .browser {
+    background: #141B2D; border: 1px solid rgba(110,231,183,0.15);
+    border-radius: 16px; overflow: hidden;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+  }
+  .b-bar { background: #1E293B; padding: 10px 14px; display: flex; align-items: center; gap: 8px; }
+  .dots { display: flex; gap: 5px; }
+  .dot { width: 11px; height: 11px; border-radius: 50%; }
+  .url-bar { flex: 1; background: #0F172A; border-radius: 6px; padding: 4px 10px; font-size: 11px; color: #475569; }
+  .b-body { padding: 20px; }
+  .mock-h { background: linear-gradient(135deg,rgba(110,231,183,0.15),rgba(99,102,241,0.1)); border-radius: 10px; padding: 18px; margin-bottom: 14px; }
+  .m-bar { height: 9px; border-radius: 4px; margin-bottom: 7px; }
+  .mock-btn-sm { display: inline-block; background: var(--accent); border-radius: 6px; padding: 6px 16px; font-size: 10px; font-weight: 700; color: var(--navy); margin-top: 8px; }
+  .mock-cards-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .mc { border-radius: 8px; padding: 12px; }
+  .mc-icon { width: 22px; height: 22px; border-radius: 5px; margin-bottom: 7px; }
+  .mc-line { height: 5px; border-radius: 3px; background: rgba(255,255,255,0.15); margin-bottom: 4px; }
+  .float-badge {
+    position: absolute; background: #0F172A;
+    border: 1px solid rgba(110,231,183,0.3); border-radius: 12px;
+    padding: 10px 14px; display: flex; align-items: center; gap: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .fb-title { color: var(--white); font-size: 12px; font-weight: 600; }
+  .fb-sub { font-size: 11px; margin-top: 1px; }
+
+  /* ── SERVICES ── */
+  #services { background: var(--light); }
+  .svc-card {
+    background: var(--white); border: 1px solid #E2E8F0;
+    border-radius: 16px; padding: 28px 24px;
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .svc-card:hover { transform: translateY(-4px); box-shadow: 0 20px 48px rgba(0,0,0,0.1); border-color: var(--accent2); }
+  .svc-badge {
+    position: absolute; top: 18px; right: 18px;
+    background: #ECFDF5; border: 1px solid #A7F3D0;
+    border-radius: 100px; padding: 3px 10px; font-size: 10px; font-weight: 700; color: #059669;
+  }
+  .svc-icon { font-size: 30px; margin-bottom: 14px; }
+  .svc-h3 { font-family: var(--syne); font-size: 17px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+  .svc-p { color: var(--muted); font-size: 14px; line-height: 1.65; }
+
+  /* ── WHY US ── */
+  #why { background: var(--navy); position: relative; overflow: hidden; }
+  .why-card {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px; padding: 26px 22px;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .why-card:hover { background: rgba(110,231,183,0.06); border-color: rgba(110,231,183,0.2); }
+  .why-icon { font-size: 28px; margin-bottom: 12px; }
+  .why-h3 { font-family: var(--syne); font-size: 17px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+  .why-p { color: #64748B; font-size: 14px; line-height: 1.6; }
+
+  /* ── PORTFOLIO ── */
+  #portfolio { background: #F1F5F9; }
+  .port-card {
+    background: var(--white); border-radius: 16px; overflow: hidden;
+    border: 1px solid #E2E8F0;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .port-card:hover { transform: translateY(-4px); box-shadow: 0 20px 48px rgba(0,0,0,0.1); }
+  .port-preview { height: 160px; display: flex; align-items: center; justify-content: center; position: relative; }
+  .port-mini { width: 180px; height: 110px; background: var(--white); border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.15); overflow: hidden; }
+  .pm-bar { background: #F1F5F9; padding: 5px 8px; display: flex; gap: 3px; }
+  .pm-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .pm-body { padding: 8px; }
+  .pm-line { height: 5px; border-radius: 2px; background: #E2E8F0; margin-bottom: 4px; }
+  .pm-cards { display: flex; gap: 4px; margin-top: 6px; }
+  .pm-card { flex: 1; height: 24px; border-radius: 3px; }
+  .port-tag { position: absolute; top: 10px; right: 10px; border-radius: 100px; padding: 3px 10px; font-size: 10px; font-weight: 700; color: var(--white); }
+  .port-body { padding: 18px 20px; }
+  .port-h3 { font-family: var(--syne); font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+  .port-p { color: var(--muted); font-size: 13px; line-height: 1.6; margin-bottom: 12px; }
+  .port-result { display: flex; align-items: center; gap: 6px; }
+  .r-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent2); flex-shrink: 0; }
+  .r-txt { color: #059669; font-size: 12px; font-weight: 700; }
+
+  /* ── PROCESS ── */
+  #process { background: var(--white); }
+  .process-list { max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; }
+  .p-step { display: flex; gap: 24px; }
+  .p-col { display: flex; flex-direction: column; align-items: center; }
+  .p-num {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--syne); font-weight: 800; font-size: 14px; color: var(--navy);
+    flex-shrink: 0;
+  }
+  .p-line { width: 2px; flex: 1; min-height: 28px; background: linear-gradient(to bottom, rgba(110,231,183,0.4), rgba(110,231,183,0.05)); margin: 4px 0; }
+  .p-body { padding-bottom: 34px; padding-top: 10px; }
+  .p-h3 { font-family: var(--syne); font-size: 18px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+  .p-p { color: var(--muted); font-size: 14px; line-height: 1.65; }
+
+  /* ── TESTIMONIALS ── */
+  #testimonials { background: var(--light); }
+  .testi-card {
+    background: var(--white); border: 1px solid #E2E8F0;
+    border-radius: 16px; padding: 26px 22px;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .testi-card:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(0,0,0,0.08); }
+  .stars { color: var(--gold); font-size: 14px; margin-bottom: 12px; letter-spacing: 2px; }
+  .testi-q { color: #374151; font-size: 14px; line-height: 1.7; margin-bottom: 18px; font-style: italic; }
+  .testi-foot { display: flex; align-items: center; gap: 10px; }
+  .avatar {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #059669);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 15px; color: var(--navy); flex-shrink: 0;
+  }
+  .t-name { font-weight: 700; color: var(--dark); font-size: 13px; }
+  .t-role { color: var(--muted); font-size: 12px; }
+
+  /* ── PRICING ── */
+  #pricing { background: var(--navy); position: relative; overflow: hidden; }
+  .price-card {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px; padding: 34px 26px; position: relative;
+    transition: transform 0.3s;
+  }
+  .price-card:hover { transform: translateY(-4px); }
+  .price-card.popular {
+    background: linear-gradient(135deg, rgba(110,231,183,0.1), rgba(52,211,153,0.07));
+    border: 2px solid rgba(110,231,183,0.5);
+  }
+  .pop-badge {
+    position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 100px; padding: 4px 18px;
+    font-size: 11px; font-weight: 700; color: var(--navy); white-space: nowrap;
+  }
+  .pr-name { font-family: var(--syne); font-size: 21px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+  .pr-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 24px; }
+  .pr-amt { font-family: var(--syne); font-size: 38px; font-weight: 800; }
+  .pr-note { color: #64748B; font-size: 13px; }
+  .feat-list { display: flex; flex-direction: column; gap: 9px; margin-bottom: 26px; }
+  .feat-item { display: flex; gap: 8px; align-items: flex-start; }
+  .check { color: var(--accent); font-size: 13px; margin-top: 1px; flex-shrink: 0; }
+  .feat-txt { color: #94A3B8; font-size: 13px; }
+  .pr-btn { width: 100%; padding: 12px; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s; }
+  .pr-btn.solid { background: linear-gradient(135deg, var(--accent), var(--accent2)); border: none; color: var(--navy); }
+  .pr-btn.solid:hover { opacity: 0.9; }
+  .pr-btn.ghost { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: var(--white); }
+  .pr-btn.ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── FAQ ── */
+  #faq { background: var(--light); }
+  .faq-list { max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+  .faq-item { background: var(--white); border: 1px solid #E2E8F0; border-radius: 14px; overflow: hidden; transition: border-color 0.2s; }
+  .faq-item.open { border-color: var(--accent2); }
+  .faq-q {
+    width: 100%; text-align: left; background: none; border: none;
+    padding: 18px 22px; cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center; gap: 14px;
+  }
+  .faq-q-txt { font-weight: 600; font-size: 15px; color: var(--dark); }
+  .faq-toggle { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; transition: all 0.25s; flex-shrink: 0; }
+  .faq-toggle.closed { background: #F1F5F9; color: var(--muted); }
+  .faq-toggle.opened { background: var(--accent2); color: var(--navy); transform: rotate(45deg); }
+  .faq-a { padding: 0 22px 18px; color: var(--muted); font-size: 14px; line-height: 1.7; display: none; }
+  .faq-a.show { display: block; }
+
+  /* ── FINAL CTA ── */
+  #cta { background: var(--navy); text-align: center; position: relative; overflow: hidden; }
+  .cta-inner { max-width: 680px; margin: 0 auto; position: relative; z-index: 1; }
+  .cta-emoji { font-size: 48px; margin-bottom: 18px; }
+  .cta-h2 { font-family: var(--syne); font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800; color: var(--white); letter-spacing: -1.5px; margin-bottom: 18px; line-height: 1.1; }
+  .cta-p { color: #64748B; font-size: 16px; line-height: 1.7; margin-bottom: 36px; }
+  .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .cta-main {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border: none; border-radius: 12px; padding: 15px 32px;
+    color: var(--navy); font-weight: 700; font-size: 16px;
+    cursor: pointer; text-decoration: none; transition: all 0.2s;
+  }
+  .cta-main:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(110,231,183,0.4); }
+  .cta-sec {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent; border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px; padding: 15px 32px;
+    color: var(--white); font-weight: 600; font-size: 16px;
+    cursor: pointer; text-decoration: none; transition: all 0.2s;
+  }
+  .cta-sec:hover { border-color: var(--accent); color: var(--accent); }
+  .cta-note { color: #475569; font-size: 13px; margin-top: 22px; }
+
+  /* ── FOOTER ── */
+  footer { background: #060C1A; padding: 56px 24px 28px; border-top: 1px solid rgba(255,255,255,0.05); }
+  .footer-inner { max-width: 1200px; margin: 0 auto; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 48px; }
+  .footer-brand-desc { color: #475569; font-size: 13px; line-height: 1.7; max-width: 240px; margin-top: 14px; }
+  .social-row { display: flex; gap: 10px; margin-top: 18px; }
+  .social-btn { width: 34px; height: 34px; border-radius: 8px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 13px; cursor: pointer; border: none; color: var(--white); transition: background 0.2s; }
+  .social-btn:hover { background: rgba(110,231,183,0.1); }
+  .f-col-title { font-family: var(--syne); font-size: 11px; font-weight: 700; color: var(--white); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; }
+  .f-links { display: flex; flex-direction: column; gap: 9px; }
+  .f-link { color: #475569; font-size: 13px; cursor: pointer; background: none; border: none; text-align: left; transition: color 0.2s; }
+  .f-link:hover { color: var(--accent); }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+  .f-copy { color: #334155; font-size: 12px; }
+  .f-legal { display: flex; gap: 18px; }
+  .f-legal a { color: #334155; font-size: 12px; text-decoration: none; }
+  .f-legal a:hover { color: #64748B; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .hamburger { display: block; }
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 520px) {
+    .footer-grid { grid-template-columns: 1fr; }
+    .grid3 { grid-template-columns: 1fr; }
+    .cta-btns { flex-direction: column; align-items: center; }
+    .btn-row { flex-direction: column; }
+    .hero-stats { gap: 20px; }
+  }
+</style>
 </head>
 <body>
-  <div class="container">
-    <img
-      src="AnFLabs.png"
-      alt="ANF Labs - We Build Digital Experiences"
-      class="logo-img"
-    />
+
+<!-- ════════════════════════════ NAV ════════════════════════════ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a class="logo" href="#">
+      <div class="logo-icon">A&F</div>
+      <span class="logo-text">AnF Labs</span>
+    </a>
+    <div class="nav-links">
+      <button class="nav-link" onclick="go('services')">Services</button>
+      <button class="nav-link" onclick="go('portfolio')">Work</button>
+      <button class="nav-link" onclick="go('process')">Process</button>
+      <button class="nav-link" onclick="go('pricing')">Pricing</button>
+      <button class="nav-link" onclick="go('faq')">FAQ</button>
+      <button class="nav-cta" onclick="go('cta')">Book Free Call</button>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Open menu">☰</button>
   </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-link" onclick="go('services')">Services</button>
+    <button class="mobile-link" onclick="go('portfolio')">Work</button>
+    <button class="mobile-link" onclick="go('process')">Process</button>
+    <button class="mobile-link" onclick="go('pricing')">Pricing</button>
+    <button class="mobile-link" onclick="go('faq')">FAQ</button>
+    <button class="mobile-cta" onclick="go('cta')">Book Free Consultation</button>
+  </div>
+</nav>
+
+<!-- ════════════════════════════ HERO ════════════════════════════ -->
+<section id="hero">
+  <div class="grid-bg"></div>
+  <div class="orb" style="top:15%;left:5%;width:500px;height:500px;background:radial-gradient(circle,rgba(110,231,183,0.07) 0%,transparent 70%)"></div>
+  <div class="orb" style="bottom:10%;right:5%;width:400px;height:400px;background:radial-gradient(circle,rgba(99,102,241,0.07) 0%,transparent 70%)"></div>
+
+  <div class="hero-inner">
+    <!-- Text -->
+    <div>
+      <div class="hero-badge fi">
+        <span class="badge-dot"></span>
+        <span class="badge-txt">Websites for Small Businesses</span>
+      </div>
+      <h1 class="hero-h1 fi d1">
+        Your Business Deserves a<br>
+        <span>Website That Works.</span>
+      </h1>
+      <p class="hero-p fi d2">
+        We build modern, high-converting websites for small businesses — fast, affordable, and designed to grow your revenue from day one.
+      </p>
+      <div class="btn-row fi d3">
+        <button class="btn-primary" onclick="go('cta')">Book Free Consultation →</button>
+        <button class="btn-outline" onclick="go('portfolio')">View Our Work</button>
+      </div>
+      <div class="hero-stats fi d4">
+        <div><div class="stat-n">50+</div><div class="stat-l">Projects Delivered</div></div>
+        <div><div class="stat-n">98%</div><div class="stat-l">Client Satisfaction</div></div>
+        <div><div class="stat-n">7 Days</div><div class="stat-l">Avg. Turnaround</div></div>
+      </div>
+    </div>
+
+    <!-- Browser Mockup -->
+    <div class="hero-visual fi d2" style="position:relative;padding:20px 16px">
+      <div class="browser">
+        <div class="b-bar">
+          <div class="dots">
+            <div class="dot" style="background:#FF5F57"></div>
+            <div class="dot" style="background:#FFBD2E"></div>
+            <div class="dot" style="background:#28CA41"></div>
+          </div>
+          <div class="url-bar">🔒 yourbusiness.com</div>
+        </div>
+        <div class="b-body">
+          <div class="mock-h">
+            <div class="m-bar" style="width:60%;background:var(--accent);opacity:0.7"></div>
+            <div class="m-bar" style="width:85%;background:rgba(255,255,255,0.1)"></div>
+            <div class="m-bar" style="width:72%;background:rgba(255,255,255,0.1)"></div>
+            <div class="mock-btn-sm">Get Started Free</div>
+          </div>
+          <div class="mock-cards-row">
+            <div class="mc" style="background:rgba(110,231,183,0.15);border:1px solid rgba(110,231,183,0.25)">
+              <div class="mc-icon" style="background:rgba(110,231,183,0.3)"></div>
+              <div class="mc-line" style="width:80%"></div><div class="mc-line" style="width:60%"></div>
+            </div>
+            <div class="mc" style="background:rgba(129,140,248,0.15);border:1px solid rgba(129,140,248,0.25)">
+              <div class="mc-icon" style="background:rgba(129,140,248,0.3)"></div>
+              <div class="mc-line" style="width:80%"></div><div class="mc-line" style="width:60%"></div>
+            </div>
+            <div class="mc" style="background:rgba(244,114,182,0.15);border:1px solid rgba(244,114,182,0.25)">
+              <div class="mc-icon" style="background:rgba(244,114,182,0.3)"></div>
+              <div class="mc-line" style="width:80%"></div><div class="mc-line" style="width:60%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="float-badge" style="top:-14px;right:-4px">
+        <span style="font-size:18px">⚡</span>
+        <div><div class="fb-title">Lightning Fast</div><div class="fb-sub" style="color:#64748B">PageSpeed 98/100</div></div>
+      </div>
+      <div class="float-badge" style="bottom:-14px;left:-4px">
+        <span style="font-size:18px">📈</span>
+        <div><div class="fb-title">More Leads</div><div class="fb-sub" style="color:#6EE7B7">+240% avg. conversion</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════ SERVICES ════════════════════════════ -->
+<section id="services">
+  <div class="inner">
+    <div class="section-head fi">
+      <div class="tag tag-green">What We Do</div>
+      <h2 class="h2 dark">Everything Your Business Needs Online</h2>
+      <p class="sub muted">From your first website to a full digital strategy — we handle it all so you can focus on running your business.</p>
+    </div>
+    <div class="grid3">
+      <div class="svc-card fi"><div class="svc-badge">Most Popular</div><div class="svc-icon">🌐</div><h3 class="svc-h3">Business Websites</h3><p class="svc-p">Professional 5–10 page websites that build credibility and convert visitors into customers.</p></div>
+      <div class="svc-card fi d1"><div class="svc-icon">🛒</div><h3 class="svc-h3">Ecommerce Stores</h3><p class="svc-p">Sell online with a fully-featured store — inventory, payments, and shipping all set up for you.</p></div>
+      <div class="svc-card fi d2"><div class="svc-icon">🎯</div><h3 class="svc-h3">Landing Pages</h3><p class="svc-p">High-converting single-page experiences built for campaigns, product launches, or lead generation.</p></div>
+      <div class="svc-card fi d1"><div class="svc-icon">✨</div><h3 class="svc-h3">Website Redesign</h3><p class="svc-p">Transform your outdated website into a modern, fast, and beautiful digital storefront.</p></div>
+      <div class="svc-card fi d2"><div class="svc-icon">🔍</div><h3 class="svc-h3">SEO Optimization</h3><p class="svc-p">Get found on Google with on-page SEO, speed optimization, and local search strategies.</p></div>
+      <div class="svc-card fi d3"><div class="svc-icon">🛠️</div><h3 class="svc-h3">Website Maintenance</h3><p class="svc-p">Keep your website updated, secure, and running smoothly with our ongoing care plans.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════ WHY US ════════════════════════════ -->
+<section id="why" style="padding:96px 24px">
+  <div class="orb" style="top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:600px;background:radial-gradient(ellipse,rgba(110,231,183,0.05) 0%,transparent 70%)"></div>
+  <div class="inner" style="position:relative;z-index:1">
+    <div class="section-head fi">
+      <div class="tag tag-teal">Why AnF Labs</div>
+      <h2 class="h2 white">The Smart Choice for Small Businesses</h2>
+      <p class="sub light">We've built websites for over 50 small businesses — here's why they keep coming back.</p>
+    </div>
+    <div class="grid3">
+      <div class="why-card fi"><div class="why-icon">⚡</div><h3 class="why-h3">Fast Delivery</h3><p class="why-p">Most websites are live in 7–14 days. No long waiting. No delays.</p></div>
+      <div class="why-card fi d1"><div class="why-icon">📱</div><h3 class="why-h3">Mobile-First Design</h3><p class="why-p">Every site looks stunning and works flawlessly on any device.</p></div>
+      <div class="why-card fi d2"><div class="why-icon">💰</div><h3 class="why-h3">Affordable Pricing</h3><p class="why-p">Premium quality at prices small businesses can actually afford.</p></div>
+      <div class="why-card fi d1"><div class="why-icon">🔍</div><h3 class="why-h3">SEO-Friendly Code</h3><p class="why-p">Built to rank on Google with clean code, fast load times, and proper structure.</p></div>
+      <div class="why-card fi d2"><div class="why-icon">🤝</div><h3 class="why-h3">Ongoing Support</h3><p class="why-p">We're here after launch — updates, fixes, and advice whenever you need it.</p></div>
+      <div class="why-card fi d3"><div class="why-icon">🎨</div><h3 class="why-h3">Custom Solutions</h3><p class="why-p">No cookie-cutter templates. Every website is uniquely crafted for your business.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════ PORTFOLIO ════════════════════════════ -->
+<section id="portfolio">
+  <div class="inner">
+    <div class="section-head fi">
+      <div class="tag tag-green">Our Work</div>
+      <h2 class="h2 dark">Real Results for Real Businesses</h2>
+      <p class="sub muted">Every project is a partnership. Here are some of the businesses we've helped grow.</p>
+    </div>
+    <div class="grid3" id="port-grid"></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════ PROCESS ════════════════════════════ -->
+<section id="process" style="background:var(--white)">
+  <div class="inner">
+    <div class="section-head fi">
+      <div class="tag tag-green">How It Works</div>
+      <h2 class="h2 dark">Simple. Transparent. Stress-Free.</h2>
+      <p class="sub muted">Our proven process takes you from zero to live website — without the confusion.</p>
+    </div>
+    <div class="process-list">
+      <div class="p-step fi">
+        <div class="p-col"><div class="p-num">01</div><div class="p-line"></div></div>
+        <div class="p-body"><h3 class="p-h3">Discovery Call</h3><p class="p-p">We learn about your business, goals, and audience in a free 30-minute call. No pressure — just a friendly conversation about what you need.</p></div>
+      </div>
+      <div class="p-step fi d1">
+        <div class="p-col"><div class="p-num">02</div><div class="p-line"></div></div>
+        <div class="p-body"><h3 class="p-h3">Design</h3><p class="p-p">We create a custom design mockup tailored to your brand. You review and approve everything before a single line of code is written.</p></div>
+      </div>
+      <div class="p-step fi d2">
+        <div class="p-col"><div class="p-num">03</div><div class="p-line"></div></div>
+        <div class="p-body"><h3 class="p-h3">Development</h3><p class="p-p">Our developers bring the design to life — clean code, fast loading, and fully responsive across all devices.</p></div>
+      </div>
+      <div class="p-step fi d3">
+        <div class="p-col"><div class="p-num">04</div><div class="p-line"></div></div>
+        <div class="p-body"><h3 class="p-h3">Launch</h3><p class="p-p">We go live after your final approval, and set up hosting, domain, and Google Analytics so you're ready to receive visitors from day one.</p></div>
+      </div>
+      <div class="p-step fi d4">
+        <div class="p-col"><div class="p-num">05</div></div>
+        <div class="p-body" style="padding-bottom:0"><h3 class="p-h3">Ongoing Support</h3><p class="p-p">We stick around. Monthly maintenance, updates, and priority support whenever your business needs it.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════ TESTIMONIALS ════════════════════════════ -->
+<section id="testimonials">
+  <div class="inner">
+    <div class="section-head fi">
+      <div class="tag tag-green">Client Love</div>
+      <h2 class="h2 dark">Trusted by Small Business Owners</h2>
+      <p class="sub muted">Don't take our word for it — here's what real clients say about working with us.</p>
+    </div>
+    <div class="grid3" id="testi-grid"></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════ PRICING ════════════════════════════ -->
+<section id="pricing" style="background:var(--navy);position:relative;overflow:hidden">
+  <div class="grid-bg"></div>
+  <div class="inner" style="position:relative;z-index:1">
+    <div class="section-head fi">
+      <div class="tag tag-teal">Transparent Pricing</div>
+      <h2 class="h2 white">Simple Packages, No Surprises</h2>
+      <p class="sub light">Every plan includes everything you need to launch professionally. Need something custom? Let's talk.</p>
+    </div>
+    <div class="grid3" id="price-grid"></div>
+    <p class="fi" style="text-align:center;color:#64748B;font-size:13px;margin-top:28px">
+      💬 Need something custom?
+      <button onclick="go('cta')" style="background:none;border:none;color:var(--accent);cursor:pointer;font-weight:600;font-size:13px">Let's chat about your project →</button>
+    </p>
+  </div>
+</section>
+
+<!-- ════════════════════════════ FAQ ════════════════════════════ -->
+<section id="faq">
+  <div class="inner">
+    <div class="section-head fi">
+      <div class="tag tag-green">FAQs</div>
+      <h2 class="h2 dark">Questions? We've Got Answers.</h2>
+    </div>
+    <div class="faq-list" id="faq-list"></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════ FINAL CTA ════════════════════════════ -->
+<section id="cta">
+  <div class="grid-bg"></div>
+  <div class="orb" style="top:50%;left:50%;transform:translate(-50%,-50%);width:900px;height:600px;background:radial-gradient(ellipse,rgba(110,231,183,0.06) 0%,transparent 70%)"></div>
+  <div class="cta-inner fi">
+    <div class="cta-emoji">🚀</div>
+    <h2 class="cta-h2">Ready to Get Your Business Online?</h2>
+    <p class="cta-p">Book a free 30-minute consultation call. We'll talk about your goals, answer your questions, and put together a plan that fits your budget.</p>
+    <div class="cta-btns">
+      <a href="mailto:hello@anflabs.com" class="cta-main">📅 Book Free Consultation</a>
+      <a href="mailto:hello@anflabs.com" class="cta-sec">✉️ Send Us an Email</a>
+    </div>
+    <p class="cta-note">No commitment. No sales pressure. Just a friendly conversation about your business.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════ FOOTER ════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <a class="logo" href="#" style="text-decoration:none">
+          <div class="logo-icon">A&F</div>
+          <span class="logo-text">AnF Labs</span>
+        </a>
+        <p class="footer-brand-desc">Modern websites and digital solutions for small businesses that want to grow online.</p>
+        <div class="social-row">
+          <button class="social-btn" title="Twitter/X">𝕏</button>
+          <button class="social-btn" title="LinkedIn">in</button>
+          <button class="social-btn" title="Facebook">f</button>
+          <button class="social-btn" title="Instagram">📷</button>
+        </div>
+      </div>
+      <div>
+        <div class="f-col-title">Services</div>
+        <div class="f-links">
+          <button class="f-link" onclick="go('services')">Business Websites</button>
+          <button class="f-link" onclick="go('services')">Ecommerce Stores</button>
+          <button class="f-link" onclick="go('services')">Landing Pages</button>
+          <button class="f-link" onclick="go('services')">Redesign</button>
+          <button class="f-link" onclick="go('services')">SEO</button>
+          <button class="f-link" onclick="go('services')">Maintenance</button>
+        </div>
+      </div>
+      <div>
+        <div class="f-col-title">Company</div>
+        <div class="f-links">
+          <button class="f-link" onclick="go('why')">About Us</button>
+          <button class="f-link" onclick="go('portfolio')">Portfolio</button>
+          <button class="f-link" onclick="go('pricing')">Pricing</button>
+          <button class="f-link" onclick="go('faq')">FAQ</button>
+          <button class="f-link" onclick="go('cta')">Contact</button>
+        </div>
+      </div>
+      <div>
+        <div class="f-col-title">Contact</div>
+        <div class="f-links">
+          <span class="f-link" style="cursor:default">hello@anflabs.com</span>
+          <span class="f-link" style="cursor:default">+1 (800) 555-0180</span>
+          <span class="f-link" style="cursor:default">Mon–Fri, 9am–6pm EST</span>
+          <span class="f-link" style="cursor:default">Remote • Worldwide</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="f-copy">© <span id="year"></span> AnF Labs. All rights reserved.</p>
+      <div class="f-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Cookie Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── Helpers ──
+function go(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  // close mobile menu if open
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.querySelector('.hamburger').textContent = '☰';
+}
+
+function toggleMenu() {
+  const m = document.getElementById('mobileMenu');
+  const btn = document.querySelector('.hamburger');
+  const isOpen = m.classList.toggle('open');
+  btn.textContent = isOpen ? '✕' : '☰';
+}
+
+// Sticky nav style on scroll
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
+});
+
+// Current year in footer
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// ── Fade-in on scroll ──
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+
+// ── Portfolio data ──
+const projects = [
+  { name: "The Bloom Bakery",      tag: "E-commerce",    color: "#F472B6", desc: "Full online bakery store with order management, custom cake requests, and local delivery integration.", result: "+320% online orders" },
+  { name: "GreenLeaf Landscaping", tag: "Business Site", color: "#6EE7B7", desc: "Lead-generating site with service showcase, before/after gallery, and online quote request system.",  result: "3× more inquiries" },
+  { name: "Nexus Legal Group",     tag: "Professional",  color: "#818CF8", desc: "Authoritative law firm site with practice areas, attorney profiles, and a secure client portal.",      result: "98 PageSpeed score" },
+  { name: "FitCore Gym",           tag: "Landing Page",  color: "#FB923C", desc: "High-converting membership page with class schedules, trainer bios, and free trial signup.",          result: "45% conversion rate" },
+  { name: "CloudBite Café",        tag: "E-commerce",    color: "#FBBF24", desc: "Modern café site with online menu, table reservations, and loyalty program integration.",              result: "Sold out daily in 2 weeks" },
+  { name: "HomeFixit Pro",         tag: "Redesign",      color: "#34D399", desc: "Complete redesign transforming an outdated site into a mobile-first lead machine for home services.",  result: "5× more leads" },
+];
+const portGrid = document.getElementById('port-grid');
+projects.forEach((p, i) => {
+  const card = document.createElement('div');
+  card.className = 'port-card fi' + (i % 3 === 1 ? ' d1' : i % 3 === 2 ? ' d2' : '');
+  card.innerHTML = `
+    <div class="port-preview" style="background:linear-gradient(135deg,${p.color}18,${p.color}30)">
+      <div class="port-mini">
+        <div class="pm-bar">
+          <div class="pm-dot" style="background:#FF5F57"></div>
+          <div class="pm-dot" style="background:#FFBD2E"></div>
+          <div class="pm-dot" style="background:#28CA41"></div>
+        </div>
+        <div class="pm-body">
+          <div class="pm-line" style="width:60%;background:${p.color};opacity:0.7"></div>
+          <div class="pm-line" style="width:85%"></div>
+          <div class="pm-line" style="width:70%"></div>
+          <div class="pm-cards">
+            <div class="pm-card" style="background:${p.color}25;border:1px solid ${p.color}35"></div>
+            <div class="pm-card" style="background:${p.color}25;border:1px solid ${p.color}35"></div>
+            <div class="pm-card" style="background:${p.color}25;border:1px solid ${p.color}35"></div>
+          </div>
+        </div>
+      </div>
+      <div class="port-tag" style="background:${p.color}">${p.tag}</div>
+    </div>
+    <div class="port-body">
+      <h3 class="port-h3">${p.name}</h3>
+      <p class="port-p">${p.desc}</p>
+      <div class="port-result"><div class="r-dot"></div><span class="r-txt">${p.result}</span></div>
+    </div>`;
+  portGrid.appendChild(card);
+  obs.observe(card);
+});
+
+// ── Testimonials ──
+const testimonials = [
+  { name: "Sarah Mitchell", role: "Owner, The Bloom Bakery",      text: "AnF Labs transformed my little bakery into a real brand online. Within 2 weeks of launching, I was getting daily orders from people who had never heard of us. Best investment I've made." },
+  { name: "James Okonkwo",  role: "CEO, GreenLeaf Landscaping",   text: "I was skeptical at first — I'd been burned by a freelancer before. But the team at AnF Labs was professional, fast, and communicative every step of the way. Our leads have tripled." },
+  { name: "Linda Torres",   role: "Manager, HomeFixit Pro",        text: "Our old website was embarrassing. AnF Labs gave us something we're actually proud to share. The new site paid for itself in the first month from new inquiries alone." },
+  { name: "David Park",     role: "Founder, CloudBite Café",       text: "They built our entire online ordering system in under two weeks. The team is responsive, talented, and genuinely invested in your success. Couldn't ask for more." },
+  { name: "Amara Singh",    role: "Partner, Nexus Legal Group",    text: "Highly professional output. The website is fast, looks amazing on mobile, and has helped us rank on the first page of Google for our key practice areas." },
+  { name: "Tom Reeves",     role: "Owner, FitCore Gym",            text: "Membership signups went through the roof after the new landing page. The team understood exactly what we needed and delivered beyond expectations." },
+];
+const testiGrid = document.getElementById('testi-grid');
+testimonials.forEach((t, i) => {
+  const card = document.createElement('div');
+  card.className = 'testi-card fi' + (i % 3 === 1 ? ' d1' : i % 3 === 2 ? ' d2' : '');
+  card.innerHTML = `
+    <div class="stars">★★★★★</div>
+    <p class="testi-q">"${t.text}"</p>
+    <div class="testi-foot">
+      <div class="avatar">${t.name[0]}</div>
+      <div><div class="t-name">${t.name}</div><div class="t-role">${t.role}</div></div>
+    </div>`;
+  testiGrid.appendChild(card);
+  obs.observe(card);
+});
+
+// ── Pricing ──
+const plans = [
+  {
+    name: "Starter", price: "$799", note: "one-time", popular: false, color: "#94A3B8",
+    features: ["5-page website", "Mobile-responsive design", "Contact form", "Basic SEO setup", "3 revisions", "14-day delivery", "1 month free support"],
+  },
+  {
+    name: "Growth", price: "$1,499", note: "one-time", popular: true, color: "#34D399",
+    features: ["10-page website", "Custom design & branding", "Blog / News section", "Advanced SEO", "Google Analytics", "5 revisions", "3 months free support", "Speed optimization"],
+  },
+  {
+    name: "Pro", price: "$2,999", note: "one-time", popular: false, color: "#818CF8",
+    features: ["E-commerce store", "Up to 100 products", "Payment gateway setup", "Inventory management", "Email marketing integration", "Full SEO suite", "6 months free support", "Priority delivery"],
+  },
+];
+const priceGrid = document.getElementById('price-grid');
+plans.forEach((p, i) => {
+  const card = document.createElement('div');
+  card.className = 'price-card fi' + (p.popular ? ' popular' : '') + (i === 1 ? ' d1' : i === 2 ? ' d2' : '');
+  card.innerHTML = `
+    ${p.popular ? '<div class="pop-badge">Most Popular</div>' : ''}
+    <div class="pr-name">${p.name}</div>
+    <div class="pr-row">
+      <span class="pr-amt" style="color:${p.color}">${p.price}</span>
+      <span class="pr-note">${p.note}</span>
+    </div>
+    <div class="feat-list">
+      ${p.features.map(f => `<div class="feat-item"><span class="check">✓</span><span class="feat-txt">${f}</span></div>`).join('')}
+    </div>
+    <button class="pr-btn ${p.popular ? 'solid' : 'ghost'}" onclick="go('cta')">Get Started →</button>`;
+  priceGrid.appendChild(card);
+  obs.observe(card);
+});
+
+// ── FAQ ──
+const faqs = [
+  { q: "How long does a website take to build?",           a: "Most business websites are completed in 7–14 days. E-commerce stores or more complex builds typically take 2–4 weeks. We'll give you an exact timeline during your free consultation." },
+  { q: "Do you provide web hosting?",                      a: "Yes — all our plans include hosting setup. We'll configure your hosting on a fast, reliable server and set up your domain. We can also work with hosting you already have." },
+  { q: "Can you redesign my existing website?",            a: "Absolutely. Website redesigns are one of our specialties. We'll preserve your existing content and SEO rankings while giving your site a modern, high-performing upgrade." },
+  { q: "Do you offer support after the website launches?", a: "Yes! Every plan includes at least 1 month of free post-launch support. We also offer affordable monthly maintenance plans for ongoing updates, security, and backups." },
+  { q: "Will my website be mobile-friendly?",              a: "Every website we build is mobile-first — designed for smartphones first, then scales up to desktop. We test across all screen sizes before delivery." },
+  { q: "What do you need from me to get started?",         a: "Just your business details, brand guidelines (if any), content like text and photos, and your inspiration sites. We guide you through everything in the discovery call." },
+  { q: "Do you offer payment plans?",                      a: "Yes — for larger projects, we offer a 50% deposit to begin and the remainder on delivery. Custom payment arrangements can always be discussed during your consultation." },
+];
+const faqList = document.getElementById('faq-list');
+faqs.forEach((f, i) => {
+  const item = document.createElement('div');
+  item.className = 'faq-item fi';
+  if (i % 3 === 1) item.classList.add('d1');
+  if (i % 3 === 2) item.classList.add('d2');
+  item.innerHTML = `
+    <button class="faq-q">
+      <span class="faq-q-txt">${f.q}</span>
+      <span class="faq-toggle closed">+</span>
+    </button>
+    <div class="faq-a">${f.a}</div>`;
+  item.querySelector('.faq-q').addEventListener('click', () => {
+    const isOpen = item.classList.toggle('open');
+    item.querySelector('.faq-a').classList.toggle('show', isOpen);
+    const tog = item.querySelector('.faq-toggle');
+    tog.classList.toggle('opened', isOpen);
+    tog.classList.toggle('closed', !isOpen);
+  });
+  faqList.appendChild(item);
+  obs.observe(item);
+});
+
+// Observe all static .fi elements
+document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+</script>
 </body>
 </html>
